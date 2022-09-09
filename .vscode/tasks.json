@@ -7,7 +7,7 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
+                "VMTranslator.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}.o",
                 "-std=c++17"
