@@ -88,5 +88,12 @@
         "variant": "cpp"
     },
     "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
-    "C_Cpp.clang_format_style": "{BasedOnStyle: Google}"
+    "C_Cpp.clang_format_style": "{BasedOnStyle: Google}",
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/workspaces/hack-vm-translator",
+            "binaryPath": "/workspaces/hack-vm-translator/VMTranslator",
+            "binaryArgs": []
+        }
+    ]
 }

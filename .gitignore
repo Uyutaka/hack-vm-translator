@@ -1,4 +1,7 @@
 # Unignore all with extensions
 *.o
 .DS_Store
-/test
+*.out
+*.tst
+*.cmp
+*.asm

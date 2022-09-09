@@ -13,7 +13,7 @@ class CodeWriter {
         programName(programName) {}
   void writeAsm() {
     for (Command command : commands) {
-      outputStream << "// " << command.vm << endl;
+      // outputStream << "// " << command.vm << endl;
       switch (command.command) {
         case C_ARITHMETIC:
           writeArithmetic(command.arg1);
@@ -27,7 +27,7 @@ class CodeWriter {
         default:
           break;
       }
-      outputStream << endl;
+      // outputStream << endl;
     }
   }
 
