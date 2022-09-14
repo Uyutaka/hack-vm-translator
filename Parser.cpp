@@ -24,16 +24,24 @@ class Parser {
         } else {
           type = getType(line);
         }
-        if (type == CommandType::C_ARITHMETIC) {
+        if (type == C_ARITHMETIC) {
           arg1 = line;
         }
-        if (type == CommandType::C_POP || type == CommandType::C_PUSH) {
+        if (type == C_POP || type == C_PUSH || type == C_FUNCTION ||
+            type == C_CALL) {
           size_t lastSpace = line.find_last_of(" ");
           if (lastSpace != string::npos) {
             arg1 = line.substr(firstSpace + 1, lastSpace - firstSpace - 1);
             arg2 = atoi(line.substr(lastSpace + 1).c_str());
           }
         }
+
+        if (type == C_LABEL || type == C_GOTO || type == C_IF) {
+          if (firstSpace != string::npos) {
+            arg1 = line.substr(firstSpace + 1);
+          }
+        }
+
         Command c{type, arg1, arg2, line};
         commands_.push_back(c);
       }
@@ -57,17 +65,43 @@ class Parser {
     if (found != string::npos) {
       line = line.substr(0, found);
     }
+
+    // Remove end-of-line spaces
+    size_t endSpace = line.find_last_of(" ");
+    if (line.size() != 0) {
+      while (line.find_last_of(" ") == line.size() - 1) {
+        line = line.substr(0, line.find_last_of(" "));
+      }
+    }
   }
   CommandType getType(const string& type) {
     if (find(ARITHMETIC.begin(), ARITHMETIC.end(), type) != ARITHMETIC.end()) {
-      return CommandType::C_ARITHMETIC;
+      return C_ARITHMETIC;
     }
     if (!type.compare("push")) {
-      return CommandType::C_PUSH;
+      return C_PUSH;
     }
     if (!type.compare("pop")) {
-      return CommandType::C_POP;
+      return C_POP;
     }
-    return CommandType::C_ARITHMETIC;
+    if (!type.compare("label")) {
+      return C_LABEL;
+    }
+    if (!type.compare("goto")) {
+      return C_GOTO;
+    }
+    if (!type.compare("if-goto")) {
+      return C_IF;
+    }
+    if (!type.compare("function")) {
+      return C_FUNCTION;
+    }
+    if (!type.compare("call")) {
+      return C_CALL;
+    }
+    if (!type.compare("return")) {
+      return C_RETURN;
+    }
+    return C_ARITHMETIC;
   }
 };
